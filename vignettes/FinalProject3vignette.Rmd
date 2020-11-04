@@ -1,0 +1,62 @@
+---
+title: "FinalProject3vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{FinalProject3vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+FinalProject 3 is my package for use in Data Analysis with R. 
+```{r setup}
+library(FinalProject3)
+```
+Vignette
+sample dataset is "BodyFat" which lists the percentage body fats of observations along with
+several predictor variables.
+
+1st step: read in the data
+BodyFat is a dataset that has included percent body fat as the resposne variable and includes predictor variables such as age, weight, and waist. This dataset was "clean" before use, so before you use the functions in this package, please make sure that your data is formatted properly. 
+```{r}
+BodyFat<-read.delim("~/Desktop/BIO 1 Cred/Data Analysis with R/FinalProject3/BodyFat.txt")
+
+
+```
+Example 1:
+To find the mean and median of a given parameter, use the center function. This function will also
+compare the two and describe if there may be a skewed right or skewed left distribution
+```{r}
+center(BodyFat$Weight) #parameter here is weight (continous)
+```
+Output shows that the mean is slightly greater than median.
+
+example 2:
+Find partial R-squared
+```{r}
+lm1<-lm(BodyFat$PctBF~BodyFat$Age+BodyFat$Weight)#model with age and weight
+
+lm2<-lm(BodyFat$PctBF~BodyFat$Weight)#model without age
+#generate summaries of each linear model to acquire r-squared values
+summary(lm1)
+summary(lm2)
+r1<-0.4741 #r-squared value for the full model
+r2<-0.3811 #r-squared value for the model with only weight
+partialR2(r1, r2) #output is the partial r-squared value for age
+```
+[1] 0.1502666... this means that this is the amount of variation covered by age in the linear model. 
+
+
+example 3:
+creating basic plots and simple linear regression models
+```{r}
+basic(BodyFat$PctBF, BodyFat$Age)#response variable first, following by predictor variable.
+```
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+
